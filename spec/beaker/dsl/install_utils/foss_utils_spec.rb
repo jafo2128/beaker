@@ -427,6 +427,13 @@ describe ClassMixedWithDSLInstallUtils do
         subject.install_puppet
       end
     end
+    context 'on archlinux' do
+      let(:platform) { Beaker::Platform.new('archlinux-2015.09.01-x86_84') }
+      it 'installs' do
+        expect(hosts[0]).to receive(:install_package).with('puppet')
+        subject.install_puppet
+      end
+    end
     context 'on debian' do
       let(:platform) { Beaker::Platform.new('debian-7-amd64') }
       it 'installs latest if given no version info' do
