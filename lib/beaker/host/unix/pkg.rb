@@ -42,6 +42,8 @@ module Unix::Pkg
         result = execute("pkg info #{name}", opts) { |result| result }
       when /openbsd/
         result = execute("pkg_info #{name}", opts) { |result| result }
+      when /archlinux/
+        result = execute("pacman -Q #{name}", opts) { |result| result }
       else
         raise "Package #{name} cannot be queried on #{self}"
     end
@@ -115,6 +117,8 @@ module Unix::Pkg
         rescue
           retry
         end
+      when /archlinux/
+        execute("pacman -S --noconfirm #{cmdline_args} #{name}", opts)
       else
         raise "Package #{name} cannot be installed on #{self}"
     end
@@ -136,6 +140,8 @@ module Unix::Pkg
         execute("pkg #{cmdline_args} uninstall #{name}", opts)
       when /solaris-10/
         execute("pkgutil -r -y #{cmdline_args} #{name}", opts)
+      when /archlinux/
+        execute("pacman -R --noconfirm #{cmdline_args} #{name}", opts)
       else
         raise "Package #{name} cannot be installed on #{self}"
     end
