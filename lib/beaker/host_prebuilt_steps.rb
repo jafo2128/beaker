@@ -15,6 +15,7 @@ module Beaker
     UNIX_PACKAGES = ['curl', 'ntpdate']
     FREEBSD_PACKAGES = ['curl', 'perl5']
     OPENBSD_PACKAGES = ['curl']
+    ARCHLINUX_PACKAGES = ['curl', 'ntp']
     WINDOWS_PACKAGES = ['curl']
     PSWINDOWS_PACKAGES = []
     SLES10_PACKAGES = ['curl']
@@ -107,7 +108,9 @@ module Beaker
           check_and_install_packages_if_needed(host, FREEBSD_PACKAGES)
         when host['platform'] =~ /openbsd/
           check_and_install_packages_if_needed(host, OPENBSD_PACKAGES)
-        when host['platform'] !~ /debian|aix|solaris|windows|sles-|osx-|cumulus|f5-/
+        when host['platform'] =~ /archlinux/
+          check_and_install_packages_if_needed(host, ARCHLINUX_PACKAGES)
+        when host['platform'] !~ /debian|aix|solaris|windows|sles-|osx-|cumulus|f5-|archlinux/
           check_and_install_packages_if_needed(host, UNIX_PACKAGES)
         end
       end
